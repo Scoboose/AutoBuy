@@ -3,8 +3,65 @@ local ADDON_NAME = "AutoBuy"
 
 -- Default items to buy
 local defaultItemsToBuy = {
-    {name = "Rugged Leather", desiredQuantity = 100}, -- Example item: Rugged Leather
-    -- Add more items here in the same format
+    {name = "Frost Oil", desiredQuantity = 10},
+    {name = "Schematic: Gnomish Cloaking Device", desiredQuantity = 10},
+    {name = "Recipe: Frost Protection Potion", desiredQuantity = 10},
+    {name = "Pattern: Raptor Hide Harness", desiredQuantity = 10},
+    {name = "Pattern: Raptor Hide Belt", desiredQuantity = 10},
+    {name = "Formula: Enchant Bracer - Lesser Strength", desiredQuantity = 10},
+    {name = "Schematic: Deepdive Helmet", desiredQuantity = 10},
+    {name = "Recipe: Elixir of Demonslaying", desiredQuantity = 10},
+    {name = "Shadowskin Gloves", desiredQuantity = 10},
+    {name = "Pattern: Gem-studded Leather Belt", desiredQuantity = 10},
+    {name = "Recipe: Frost Protection Potion", desiredQuantity = 10},
+    {name = "Plans: Moonsteel Broadsword", desiredQuantity = 10},
+    {name = "Recipe: Great Rage Potion", desiredQuantity = 10},
+    {name = "Recipe: Superior Mana Potion", desiredQuantity = 10},
+    {name = "Formula: Enchant Bracer - Deflection", desiredQuantity = 10},
+    {name = "Formula: Enchant Shield - Greater Stamina", desiredQuantity = 10},
+    {name = "Pattern: Mooncloth Robe", desiredQuantity = 10},
+    {name = "Recipe: Holy Protection Potion", desiredQuantity = 10},
+    {name = "Schematic: Goblin Jumper Cables", desiredQuantity = 10},
+    {name = "Recipe: Nature Protection Potion", desiredQuantity = 10},
+    {name = "Recipe: Transmute Mithril to Truesilver", desiredQuantity = 10},
+    {name = "Plans: Golden Scale Coif", desiredQuantity = 10},
+    {name = "Pattern: Earthen Leather Shoulders", desiredQuantity = 10},
+    {name = "Pattern: Red Woolen Bag", desiredQuantity = 10},
+    {name = "Pattern: Green Leather Armor", desiredQuantity = 10},
+    {name = "Schematic: Gnomish Universal Remote", desiredQuantity = 10},
+    {name = "Formula: Runed Arcanite Rod", desiredQuantity = 10},
+    {name = "Formula: Enchant Chest - Lesser Mana", desiredQuantity = 10},
+    {name = "Recipe: Great Rage Potion", desiredQuantity = 10},
+    {name = "Recipe: Elixir of Superior Defense", desiredQuantity = 10},
+    {name = "Pattern: Pink Mageweave Shirt", desiredQuantity = 10},
+    {name = "Pattern: Lavender Mageweave Shirt", desiredQuantity = 10},
+    {name = "Pattern: Blue Overalls", desiredQuantity = 10},
+    {name = "Pattern: Black Whelp Cloak", desiredQuantity = 10},
+    {name = "Pattern: Heavy Scorpid Bracers", desiredQuantity = 10},
+    {name = "Pattern: Heavy Scorpid Helm", desiredQuantity = 10},
+    {name = "Formula: Enchant Chest - Lesser Mana", desiredQuantity = 10},
+    {name = "Pattern: Tuxedo Shirt", desiredQuantity = 10},
+    {name = "Pattern: Tuxedo Jacket", desiredQuantity = 10},
+    {name = "Pattern: Tuxedo Pants", desiredQuantity = 10},
+    {name = "Pattern: Pink Mageweave Shirt", desiredQuantity = 10},
+    {name = "Pattern: Lavender Mageweave Shirt", desiredQuantity = 10},
+    {name = "Pattern: Blue Overalls", desiredQuantity = 10},
+    {name = "Pattern: Admiral's Hat", desiredQuantity = 10},
+    {name = "Plans: Hardened Iron Shortsword", desiredQuantity = 10},
+    {name = "Plans: Massive Iron Axe", desiredQuantity = 10},
+    {name = "Recipe: Elixir of Demonslaying", desiredQuantity = 10},
+    {name = "Plans: Mithril Scale Bracers", desiredQuantity = 10},
+    {name = "Formula: Enchant Bracer - Deflection", desiredQuantity = 10},
+    {name = "Pattern: Green Dragonscale Breastplate", desiredQuantity = 10},
+    {name = "Recipe: Elixir of Shadow Power", desiredQuantity = 10},
+    {name = "Recipe: Rage Potion", desiredQuantity = 10},
+    {name = "Pattern: Azure Silk Gloves", desiredQuantity = 10},
+    {name = "Pattern: Red Whelp Gloves", desiredQuantity = 10},
+    {name = "Pattern: Mooncloth", desiredQuantity = 10},
+    {name = "Formula: Enchant Chest - Major Health", desiredQuantity = 10},
+    {name = "Pattern: Runecloth Bag", desiredQuantity = 10},
+    {name = "Recipe: Major Healing Potion", desiredQuantity = 10},
+    {name = "Schematic: Delicate Arcanite Converter", desiredQuantity = 10},
 }
 
 -- Saved variables
@@ -28,7 +85,6 @@ frame:RegisterEvent("MERCHANT_SHOW")
 
 -- Function to check and buy items
 local function BuyItems()
-    print("Test")
     --if MerchantFrame:IsVisible() then
         --print("Test2")
         for _, itemData in ipairs(savedItemsToBuy) do
@@ -75,75 +131,74 @@ end
 -- Register the event handler
 frame:SetScript("OnEvent", OnEvent)
 
--- Configuration Interface
-local function InitializeConfig()
-    -- Create a configuration panel
-    local panel = CreateFrame("FRAME", ADDON_NAME.."ConfigPanel", UIParent)
-    panel.name = ADDON_NAME
-    panel:RegisterEvent("ADDON_LOADED")
+    -- Configuration Interface
+    local function InitializeConfig()
+        -- Create options frame
+    local optionsPanel = CreateFrame("Frame")
+    optionsPanel:RegisterEvent("ADDON_LOADED")
+    optionsPanel.name = "Auto Buy"
 
-    panel:SetScript("OnEvent", function(self, event, ...)
-        panel[event](self, ...) -- call event handlers
-    end)
+    -- Create the scrolling parent frame and size it to fit inside the texture
+    local optionsScrollFrame = CreateFrame("ScrollFrame", nil, optionsPanel, "UIPanelScrollFrameTemplate")
+    optionsScrollFrame:SetPoint("TOPLEFT", 3, -4)
+    optionsScrollFrame:SetPoint("BOTTOMRIGHT", -27, 4)
 
-    function panel:ADDON_LOADED(AddOn)
-        if AddOn ~= ADDON_NAME then
-            return -- not my AddOn
-        end
-        -- do stuff because this is your AddOn
-        -- usually, the first thing you do here is Unregister ADDON_LOADED
-        -- because you no longer need it
-        -- now set up your saved variables and other "run once" stuff
-        --RefreshConfigPanel(panel)
-    end
+    -- Create the scrolling child frame, set its width to fit, and give it an arbitrary minimum height (such as 1)
+    local optionsScrollChild = CreateFrame("Frame")
+    optionsScrollFrame:SetScrollChild(optionsScrollChild)
+    optionsScrollChild:SetWidth(InterfaceOptionsFramePanelContainer:GetWidth()-18)
+    optionsScrollChild:SetHeight(1)
 
-    -- Title
-    local title = panel:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
-    title:SetPoint("TOPLEFT", 16, -16)
-    title:SetText("Auto Buy Configuration")
+    -- Add widgets to the scrolling child frame as desired
+    local optionsTitle = optionsScrollChild:CreateFontString("ARTWORK", nil, "GameFontNormalLarge")
+    optionsTitle:SetPoint("TOP")
+    optionsTitle:SetText("Auto Buy")
     
     -- Description
-    local desc = panel:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    desc:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
-    desc:SetPoint("RIGHT", -32, 0)
-    desc:SetJustifyH("LEFT")
-    desc:SetText("Set the items and desired quantities to automatically buy from vendors.")
+    local optionsDesc = optionsScrollChild:CreateFontString("ARTWORK", nil, "GameFontNormal")
+    optionsDesc:SetPoint("TOP", 0, -15)
+    optionsDesc:SetText("Set the items and desired quantities to automatically buy from vendors.")
+
+      -- Footer text
+      --local optionsFooter = optionsScrollChild:CreateFontString("ARTWORK", nil, "GameFontNormalSmall")
+      --optionsFooter:SetPoint("TOP", 60, -5)
+      --optionsFooter:SetText("by |cFF69CCF0Pokey|r")
     
     -- Create a button to add a new item
-    local addButton = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
+    local addButton = CreateFrame("Button", nil, optionsScrollChild, "UIPanelButtonTemplate")
     addButton:SetText("Add Item")
     addButton:SetSize(100, 25)
-    addButton:SetPoint("TOPLEFT", 200, -10)
+    addButton:SetPoint("TOPLEFT", 0, -25)
     addButton:Hide()
     
     -- Function to add a new item
     local function AddNewItem()
         table.insert(savedItemsToBuy, {name = "New Item", desiredQuantity = 1})
-        RefreshConfigPanel(panel)
+        RefreshConfigPanel(optionsScrollChild)
     end
     
     -- Set the action for the add button
     addButton:SetScript("OnClick", AddNewItem)
 
     -- Create a button to show items
-    local showButton = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
+    local showButton = CreateFrame("Button", nil, optionsScrollChild, "UIPanelButtonTemplate")
     showButton:SetText("Show list")
     showButton:SetSize(100, 25)
-    showButton:SetPoint("TOPLEFT", 200, -10)
+    showButton:SetPoint("TOPLEFT", 0, -25)
 
     -- Function to show
     local function showItems()
-        RefreshConfigPanel(panel)
+        RefreshConfigPanel(optionsScrollChild)
     end
 
     -- Set the action for the show button
     showButton:SetScript("OnClick", showItems)
 
     -- Create a button to Clear items
-    local clearButton = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
+    local clearButton = CreateFrame("Button", nil, optionsScrollChild, "UIPanelButtonTemplate")
     clearButton:SetText("Clear Items")
     clearButton:SetSize(100, 25)
-    clearButton:SetPoint("TOPLEFT", 550, -10)
+    clearButton:SetPoint("TOPRIGHT", 0, -25)
 
     -- Function to clear items
     local function ClearItems()
@@ -157,7 +212,7 @@ local function InitializeConfig()
                     for _, itemData in ipairs(defaultItemsToBuy) do
                         table.insert(savedItemsToBuy, {name = itemData.name, desiredQuantity = itemData.desiredQuantity})
                     end
-                    RefreshConfigPanel(panel)
+                    RefreshConfigPanel(optionsScrollChild)
                     ReloadUI()
                 end,
                 timeout = 0,
@@ -182,27 +237,27 @@ local function InitializeConfig()
         removeButton:SetScript("OnClick", function()
             
             for index, _ in ipairs(savedItemsToBuy) do
-                local nameEditBox = panel[ADDON_NAME.."NameEditBox"..index]
+                local nameEditBox = optionsScrollChild[ADDON_NAME.."NameEditBox"..index]
                 if nameEditBox then
                     nameEditBox:Hide()  -- Hide the name edit box
-                    panel[ADDON_NAME.."NameEditBox"..index] = nil  -- Remove reference from the panel
+                    optionsScrollChild[ADDON_NAME.."NameEditBox"..index] = nil  -- Remove reference from the panel
                 end
         
-                local quantityEditBox = panel[ADDON_NAME.."QuantityEditBox"..index]
+                local quantityEditBox = optionsScrollChild[ADDON_NAME.."QuantityEditBox"..index]
                 if quantityEditBox then
                     quantityEditBox:Hide()  -- Hide the quantity edit box
-                    panel[ADDON_NAME.."QuantityEditBox"..index] = nil  -- Remove reference from the panel
+                    optionsScrollChild[ADDON_NAME.."QuantityEditBox"..index] = nil  -- Remove reference from the panel
                 end
         
-                local removeButton = panel[ADDON_NAME.."RemoveButton"..index]
+                local removeButton = optionsScrollChild[ADDON_NAME.."RemoveButton"..index]
                 if removeButton then
                     removeButton:Hide()  -- Hide the remove button
-                    panel[ADDON_NAME.."RemoveButton"..index] = nil  -- Remove reference from the panel
+                    optionsScrollChild[ADDON_NAME.."RemoveButton"..index] = nil  -- Remove reference from the panel
                 end
             end
             
             table.remove(savedItemsToBuy, index)
-            RefreshConfigPanel(panel)
+            RefreshConfigPanel(optionsScrollChild)
         end)
         
         return removeButton
@@ -255,8 +310,10 @@ local function InitializeConfig()
             yOffset = yOffset - 30
         end
     end
-    -- Show the panel
-    InterfaceOptions_AddCategory(panel)
+
+    -- Register the panel with the Interface Options
+    --InterfaceOptions_AddCategory(scrollFrame) -- OLD
+    InterfaceOptions_AddCategory(optionsPanel)
 end
 
 -- Load Addon

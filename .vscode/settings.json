@@ -3,6 +3,8 @@
         "InterfaceOptions_AddCategory",
         "StaticPopupDialogs",
         "StaticPopup_Show",
-        "ReloadUI"
+        "ReloadUI",
+        "SetItemRef",
+        "InterfaceOptionsFrame_OpenToCategory"
     ]
 }
