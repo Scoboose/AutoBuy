@@ -1,0 +1,7 @@
+## Interface: 90005
+## Title: Auto Buy
+## Notes: Automatically buys items from vendors when needed
+## Author: Pokey
+## SavedVariables: savedItemsToBuy
+
+AutoBuy.lua
