@@ -85,12 +85,9 @@ frame:RegisterEvent("MERCHANT_SHOW")
 
 -- Function to check and buy items
 local function BuyItems()
-    --if MerchantFrame:IsVisible() then
-        --print("Test2")
         for _, itemData in ipairs(savedItemsToBuy) do
             local name = itemData.name
             local desiredQuantity = itemData.desiredQuantity
-            print(name)
             
             for i = 1, GetMerchantNumItems() do
                 local itemName, _, price, quantity, _, _, _ = GetMerchantItemInfo(i)
@@ -102,12 +99,12 @@ local function BuyItems()
                 end
                 local maxStack = GetMerchantItemMaxStack(i)
                 local currentStock = GetItemCount(itemName, false, true)
-                print(itemName .. " In Bags: " .. currentStock .. " Item stack count: " .. cleanItemStackCount .. " Max stack: " .. maxStack)
+                -- print(itemName .. " In Bags: " .. currentStock .. " Item stack count: " .. cleanItemStackCount .. " Max stack: " .. maxStack)
                 -- Check if the item matches the one we want to buy
                 if itemName == name and currentStock < desiredQuantity then
                     local remainingQuantity = desiredQuantity - currentStock
                     local numToBuy = math.min(maxStack, remainingQuantity)
-                    print("Buying " .. numToBuy)
+                    print("Buying " .. numToBuy .. name)
                     local totalCost = numToBuy * price
                     
                     if totalCost <= GetMoney() then
@@ -118,7 +115,6 @@ local function BuyItems()
                 end
             end
         end
-    --end
 end
 
 -- Event handler function
