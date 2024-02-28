@@ -104,7 +104,7 @@ local function BuyItems()
                 if itemName == name and currentStock < desiredQuantity then
                     local remainingQuantity = desiredQuantity - currentStock
                     local numToBuy = math.min(maxStack, remainingQuantity)
-                    print("Buying " .. numToBuy .. name)
+                    print("Buying " .. numToBuy .. " " .. name)
                     local totalCost = numToBuy * price
                     
                     if totalCost <= GetMoney() then
