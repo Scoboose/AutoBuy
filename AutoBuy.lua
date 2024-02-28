@@ -3,7 +3,7 @@ local ADDON_NAME = "AutoBuy"
 
 -- Default items to buy
 local defaultItemsToBuy = {
-    {name = "Frost Oil", desiredQuantity = 10},
+    {name = "Recipe: Frost Oil", desiredQuantity = 10},
     {name = "Schematic: Gnomish Cloaking Device", desiredQuantity = 10},
     {name = "Recipe: Frost Protection Potion", desiredQuantity = 10},
     {name = "Pattern: Raptor Hide Harness", desiredQuantity = 10},
