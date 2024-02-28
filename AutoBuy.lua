@@ -154,6 +154,9 @@ local function InitializeConfig()
                 button2 = "Decline",
                 OnAccept = function()
                     wipe(savedItemsToBuy)
+                    for _, itemData in ipairs(defaultItemsToBuy) do
+                        table.insert(savedItemsToBuy, {name = itemData.name, desiredQuantity = itemData.desiredQuantity})
+                    end
                     RefreshConfigPanel(panel)
                     ReloadUI()
                 end,
@@ -168,6 +171,42 @@ local function InitializeConfig()
 
     -- Set the action for the clear button
     clearButton:SetScript("OnClick", ClearItems)
+
+    -- Create a button to remove an item
+    local function CreateRemoveButton(parent, index)
+        local removeButton = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
+        removeButton:SetText("Remove")
+        removeButton:SetSize(70, 25)
+        removeButton:SetPoint("LEFT", parent[ADDON_NAME.."QuantityEditBox"..index], "RIGHT", 10, 0)
+        
+        removeButton:SetScript("OnClick", function()
+            
+            for index, _ in ipairs(savedItemsToBuy) do
+                local nameEditBox = panel[ADDON_NAME.."NameEditBox"..index]
+                if nameEditBox then
+                    nameEditBox:Hide()  -- Hide the name edit box
+                    panel[ADDON_NAME.."NameEditBox"..index] = nil  -- Remove reference from the panel
+                end
+        
+                local quantityEditBox = panel[ADDON_NAME.."QuantityEditBox"..index]
+                if quantityEditBox then
+                    quantityEditBox:Hide()  -- Hide the quantity edit box
+                    panel[ADDON_NAME.."QuantityEditBox"..index] = nil  -- Remove reference from the panel
+                end
+        
+                local removeButton = panel[ADDON_NAME.."RemoveButton"..index]
+                if removeButton then
+                    removeButton:Hide()  -- Hide the remove button
+                    panel[ADDON_NAME.."RemoveButton"..index] = nil  -- Remove reference from the panel
+                end
+            end
+            
+            table.remove(savedItemsToBuy, index)
+            RefreshConfigPanel(panel)
+        end)
+        
+        return removeButton
+    end
     
     -- Refresh the configuration panel
     function RefreshConfigPanel(panel)
@@ -204,6 +243,14 @@ local function InitializeConfig()
                 panel[ADDON_NAME.."QuantityEditBox"..index] = quantityEditBox
             end
             quantityEditBox:SetText(tostring(itemData.desiredQuantity))
+
+             -- Add Remove Button
+            local removeButton = panel[ADDON_NAME.."RemoveButton"..index]
+            if not removeButton then
+                removeButton = CreateRemoveButton(panel, index)
+                panel[ADDON_NAME.."RemoveButton"..index] = removeButton
+            end
+            removeButton:SetPoint("LEFT", panel[ADDON_NAME.."QuantityEditBox"..index], "RIGHT", 10, 0)
             
             yOffset = yOffset - 30
         end
